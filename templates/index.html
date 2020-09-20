@@ -2,33 +2,34 @@
 
 {% block content %}
 <section>
-
-  <div class="container my-4">
-    <h1>PLAYLIST</h1>
-
-    {% for d in result %}
-    <div class="row my-4">
-      <div class="col-md-6 ">
-        <a href="/product/{{d.id}}"><img src="../static/imageuploads/{{d.filename}}" width="500" height="400"
-            alt="..."></a>
-      </div>
-      <div class="col-md-6 my-5 ">
-        <h1> {{ d.name }}</h1>
-        <p>{{ d.description }}</p>
-        <h3>Artist: {{  d.artist }}
-          <br>Album: {{  d.album }}</h3>
-        <audio controls>
-          <source src="../static/musicuploads/{{ d.audio }}" type="audio/mpeg">
-        </audio>
-        <a href="../static/musicuploads/{{ d.audio }}" download="song"> <button class="btn btn-primary"
-            style="margin: 10%;">Download Music</button></a>
-
-      </div>
+    <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">hey
+            {% for d in result %}
+            <div class="row my-4">
+              <div class="col-md-6 ">
+                <a href="/product/{{d.id}}"><img src="../static/imageuploads/{{d.filename}}" width="500" height="400"
+                    alt="..."></a>
+              </div>
+              
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">{{d.title}}</h5>
+                  <h6 class="card-subtitle mb-2 ">{{d.instructor}} </h6>
+                  <h6 class="card-subtitle mb-2 " > {{ d.category }}</h6>
+                  <p class="card-text">{{d.discription }}</p>
+                  
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">helloo</div>
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">yess</div>
+        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">bye</div>
     </div>
-    {% endfor %}
-
-    <a href="/uploadMusic" class="btn btn-secondary"> UPLOAD YOUR SONG </a>
-
+  
+     
+   
 </section>
 
 

@@ -1,0 +1,18 @@
+
+html,
+body {
+  height: 100hv;
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
+
+#sidebar{
+    padding-top: 10%;
+    padding-bottom: 30%;
+}
+
+.Main {
+  background-color: rgb(230, 228, 228);
+}

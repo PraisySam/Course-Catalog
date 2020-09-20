@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+        <div class="row">
+          <div class="col-md-6 ">
+            <img src="../static/imageuploads/{{course.filename}}" width="600" height="600" alt="...">
+          </div>
+          <div class="col-md-6 my-5 ">
+              <h1> {{ course.title }}</h1>
+            
+              <h3>Category: {{  course.category }}</h3>
+              <h3>Instructor: {{  course.instructor }}</h3>
+              <p>{{ course.description }}</p>
+              <p>{{ course.type }}</p>
+              <p>{{ course.startDate }}</p>
+              <p>{{ course.endDate }}</p>
+          </div>
+        </div>
+      
+</section>
+      {% endblock %}

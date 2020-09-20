@@ -4,6 +4,7 @@ from flask_marshmallow import Marshmallow
 import os
 from flask import url_for, redirect, render_template, request, send_from_directory
 from flask_wtf import FlaskForm 
+from sqlalchemy import or_
 from wtforms_sqlalchemy.fields import QuerySelectField
 
 
@@ -52,7 +53,7 @@ class CourseSchema(ma.Schema):
 
 # Init schema
 course_schema = CourseSchema()
-course_schema = CourseSchema(many=True)
+courses_schema = CourseSchema(many=True)
 
 #Upload course 
 @app.route('/uploadCourse')
@@ -63,7 +64,9 @@ def uploadCourse():
 # Get Home
 @app.route('/', methods=['GET'])
 def home():
-  return render_template('index.html')
+  all_courses = Course.query.all()
+  result = courses_schema.dump(all_courses)
+  return render_template('index.html',result = result)
 
 # Get All Courses
 @app.route('/all_courses', methods=['GET'])
