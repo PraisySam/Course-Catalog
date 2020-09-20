@@ -29,18 +29,18 @@ class Course(db.Model):
   instructor = db.Column(db.String)
   category = db.Column(db.String)
   description = db.Column(db.String)
-  courseimage = db.Column(db.String)
-  type = db.column(db.String)
-  startDate = db.column(db.String)
-  endDate = db.column(db.String)
+  filename = db.Column(db.String)
+  type = db.Column(db.String)
+  startDate = db.Column(db.Integer)
+  endDate = db.Column(db.Integer)
 
 
-  def __init__(self, title, instructor, category, description, courseimage, type, startDate, endDate):
+  def __init__(self, title, instructor, category, description, filename, type, startDate, endDate):
     self.title = title
     self.description = description
     self.category = category
     self.instructor = instructor
-    self.courseimage = courseimage
+    self.filename = filename
     self.type = type
     self.startDate = startDate
     self.endDate = endDate
@@ -48,7 +48,7 @@ class Course(db.Model):
 # Product Schema
 class CourseSchema(ma.Schema):
   class Meta:
-    fields = ('id', 'title', 'description', 'instructor','category', 'courseimage','type','startDate','endDate')
+    fields = ('id', 'title', 'description', 'instructor','category', 'filename','type','startDate','endDate')
 
 # Init schema
 course_schema = CourseSchema()
@@ -87,7 +87,7 @@ def upload():
     
     title = request.form["name"]
     instructor = request.form["Iname"]
-    category = request.form["Cat"]
+    category = request.form["Cname"]
     description = request.form["Dname"]
     type = request.form["type"]
     startDate = request.form["Bdate"]
@@ -100,24 +100,25 @@ def upload():
     print(request.files.getlist("file"))
     for upload in request.files.getlist("file"):
         print("PraisyUpload1"+str(upload))
-        print("{} is the file name".format(upload.courseimage))
-        courseimage = upload.courseimage
-        ext = os.path.splitext(courseimage)[1]
+        print("{} is the file name".format(upload.filename))
+        filename = upload.filename
+        ext = os.path.splitext(filename)[1]
         if (ext == ".jpg") or (ext == ".png"):
             print("File supported moving on...")
         else:
             print("File not supported")
             return
             
-        destination = "/".join([target, courseimage])
-        print("Accept incoming file:", courseimage)
+        destination = "/".join([target, filename])
+        print("Accept incoming file:", filename)
         print("Save it to:", destination)
         upload.save(destination)
         
-    new_course = Course(title, description, instructor, category, courseimage, type, startDate, endDate)
+    new_course = Course(title, description, instructor, category, filename, type, startDate, endDate)
     db.session.add(new_course)
     db.session.commit()
-    return render_template("complete.html", image_name=courseimage )
+    
+    return render_template("complete.html", image_name=filename )
 
 
 def choice_query():
