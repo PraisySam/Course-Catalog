@@ -2,34 +2,26 @@
 
 {% block content %}
 <section>
-    <div class="tab-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">hey
-            {% for d in result %}
-            <div class="row my-4">
-              <div class="col-md-6 ">
-                <a href="/product/{{d.id}}"><img src="../static/imageuploads/{{d.filename}}" width="500" height="400"
-                    alt="..."></a>
-              </div>
-              
-            </div>
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">{{d.title}}</h5>
-                  <h6 class="card-subtitle mb-2 ">{{d.instructor}} </h6>
-                  <h6 class="card-subtitle mb-2 " > {{ d.category }}</h6>
-                  <p class="card-text">{{d.discription }}</p>
-                  
-                </div>
-              </div>
-            {% endfor %}
-        </div>
-        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">helloo</div>
-        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">yess</div>
-        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">bye</div>
+  {% for course in courses.items %}
+  <div class="row">
+    <div class="card " style="width: 28rem;">
+      <div class="card-body">
+        <p><input type="checkbox" name="">{{ course.id}}</p>
+        <h5 class="card-title">{{ course.title}}</h5>
+        <h6 class="card-subtitle mb-2 ">{{ course.instructor}} </h6>
+        <h6 class="card-subtitle mb-2 "> {{ course.category}}</h6>
+        <p class="card-text">{{ course.description}}</p>
+        <p>{{ course.startDate}}</p>
+        <p>{{ course.endDate}}</p>
+      </div>
     </div>
-  
-     
-   
+    <div class="card col-md-6" style="width: 18rem;"></div>
+  </div>
+
+  {% endfor %}
+  </div>
+
+
 </section>
 
 

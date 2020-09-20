@@ -24,7 +24,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 # Course Class/Model
-class Course(db.Model):
+class Courses(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String(100), unique=True)
   instructor = db.Column(db.String)
@@ -60,26 +60,41 @@ courses_schema = CourseSchema(many=True)
 def uploadCourse():
   return render_template("upload.html")
 
-
-# Get Home
-@app.route('/', methods=['GET'])
-def home():
-  all_courses = Course.query.all()
-  result = courses_schema.dump(all_courses)
-  return render_template('index.html',result = result)
-
+  
+@app.route('/', methods=['GET', 'POST'], defaults={"page": 1}) 
+@app.route('/<int:page>', methods=['GET', 'POST'])
+def index(page):
+    page = page
+    pages = 5
+    courses = Courses.query.order_by(Courses.id.asc()).paginate(page,pages,error_out=False)
+  
+    if request.method == 'POST' and 'tag' in request.form:
+       tag = request.form["tag"]
+       search = "%{}%".format(tag)
+       courses = Courses.query.filter(or_(Courses.title.like(search), Courses.category.like(search))).paginate(per_page=pages, error_out=True)      
+       return render_template('index.html', courses=courses, tag=tag)
+    return render_template('index.html', courses=courses)
+ 
 # Get All Courses
-@app.route('/all_courses', methods=['GET'])
-def get_courses():
-  all_courses = Course.query.all()
-  result = courses_schema.dump(all_courses)
-  return render_template('index.html', result = result )
+@app.route('/Computer', methods=['GET'] , defaults={"page": 1})
+def get_courses(page):
+   page = page
+   pages = 5
+   courses = Courses.query.order_by(Courses.category == 'Maths').paginate(page,pages,error_out=False)  
+   
+   if request.method == 'POST' and 'tag' in request.form:
+       tag = request.form["tag"]
+       search = "%{}%".format(tag)
+       courses = Courses.query.filter(Courses.title.like(search)).paginate(per_page=pages, error_out=True)      
+       return render_template('Category.html', courses=courses, tag=tag)
+   return render_template('Category.html', courses=courses)
+   
 
 
 # Get Single Products
 @app.route('/all_courses/<id>', methods=['GET']) 
 def get_course(id):
-  course = Course.query.get(id)
+  course = Courses.query.get(id)
   return render_template('course.html', title="Course(ID)" ,  course = course )
 
 # upload a course
@@ -117,7 +132,7 @@ def upload():
         print("Save it to:", destination)
         upload.save(destination)
         
-    new_course = Course(title, description, instructor, category, filename, type, startDate, endDate)
+    new_course = Courses(title, description, instructor, category, filename, type, startDate, endDate)
     db.session.add(new_course)
     db.session.commit()
     
@@ -134,3 +149,5 @@ class ChoiceForm(FlaskForm):
 # Run Server
 if __name__ == '__main__':
   app.run(debug=True)
+
+ 

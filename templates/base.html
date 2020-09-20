@@ -28,22 +28,93 @@
     <div class="row">
       <!----Side bar------>
       <div class="col-3 " id="sidebar">
-        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
-            aria-controls="v-pills-home" aria-selected="true">Home</a>
-          <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
-            aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-          <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
-            aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-          <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
-            aria-controls="v-pills-settings" aria-selected="false">Settings</a>
-        </div>
+        <nav class="nav flex-column">
+          <a class="nav-link active" href="/">home</a>
+          <a class="nav-link" href="/Computer">Link</a>
+          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </nav>
+
       </div>
+
       <!---Main content------>
       <div class="col-9">
-        {% block content %} {% endblock %}
+
+        <div class="container my-5">
+
+          <div class="row py-5">
+            <div class="col-8">
+              <strong>Search For : {{ tag}}</strong>
+            </div>
+            <div class="col-4">
+              <form action="" method="post" autocomplete="off">
+                <div class="row">
+                  <div class="col-6">
+                    <input type="text" class="form-control" name="tag" id="tag" placeholder="Enter keyword" />
+                  </div>
+                  <div class="col-6" align="left">
+                    <input type="submit" value="Search" class="form-control btn btn-primary " name="">
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            {% block content %}
+
+            {% endblock %}
+
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                {% if courses.has_prev %}
+                <li class="page-item"> <a class="page-link"
+                    href="{{ url_for('index', page=courses.prev_num) }}">Previous</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
+                {% endif %}
+
+                {% for page in courses.iter_pages(left_edge=3, right_edge=3) %}
+                {% if page %}
+
+                {% if page==courses.page %}
+                <li class="page-item active"><a class="page-link"
+                    href="{{ url_for('index', page=page) }}">{{ page }}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('index', page=page) }}">{{ page }}</a></li>
+                {% endif %}
+
+                {% else %}
+                <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if courses.has_next %}
+                <li class="page-item"> <a class="page-link"
+                    href="{{ url_for('index', page=courses.next_num) }}">Next</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+                {% endif %}
+
+              </ul>
+            </nav>
+          </div>
+        </div>
+
       </div>
+      
+      <script>
+        function checkAll(bx) {
+          var cbs = document.getElementsByTagName('input');
+          for (var i = 0; i < cbs.length; i++) {
+            if (cbs[i].type == 'checkbox') {
+              cbs[i].checked = bx.checked;
+            }
+          }
+        }
+      </script>
     </div>
+  </div>
   </div>
   <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">

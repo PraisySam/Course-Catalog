@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+   {% for course in courses.items %}
+      <div class="row">
+        <div class="card " style="width: 28rem;">
+          <div class="card-body">
+            <p><input type="checkbox" name="">{{ course.id}}</p>
+            <h5 class="card-title">{{ course.title}}</h5>
+            <h6 class="card-subtitle mb-2 ">{{ course.instructor}} </h6>
+            <h6 class="card-subtitle mb-2 "> {{ course.category}}</h6>
+            <p class="card-text">{{ course.description}}</p>
+            <p>{{ course.startDate}}</p>
+            <p>{{ course.endDate}}</p>
+          </div>
+        </div>
+        <div class="card col-md-6" style="width: 18rem;"></div>
+      </div>
+
+    {% endfor %}
+</section>
+
+
+{% endblock %}
