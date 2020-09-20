@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+
+  <div class="container my-4">
+    <h1>PLAYLIST</h1>
+
+    {% for d in result %}
+    <div class="row my-4">
+      <div class="col-md-6 ">
+        <a href="/product/{{d.id}}"><img src="../static/imageuploads/{{d.filename}}" width="500" height="400"
+            alt="..."></a>
+      </div>
+      <div class="col-md-6 my-5 ">
+        <h1> {{ d.name }}</h1>
+        <p>{{ d.description }}</p>
+        <h3>Artist: {{  d.artist }}
+          <br>Album: {{  d.album }}</h3>
+        <audio controls>
+          <source src="../static/musicuploads/{{ d.audio }}" type="audio/mpeg">
+        </audio>
+        <a href="../static/musicuploads/{{ d.audio }}" download="song"> <button class="btn btn-primary"
+            style="margin: 10%;">Download Music</button></a>
+
+      </div>
+    </div>
+    {% endfor %}
+
+    <a href="/uploadMusic" class="btn btn-secondary"> UPLOAD YOUR SONG </a>
+
+</section>
+
+
+{% endblock %}

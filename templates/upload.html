@@ -1,0 +1,92 @@
+<head>
+  <title>Upload</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    
+</head>
+
+<body>
+    <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">Course Title :</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Course names">
+        </div>
+        <div class="form-group">
+            <label for="Iname">Instructor :</label>
+            <input type="text" class="form-control" id="Iname" name="Iname" placeholder="Instructor">
+        </div>
+        <div class="form-group">
+            <label for="Sname">Course Category :</label>
+            <input type="text" class="form-control" id="Cname" name="name" placeholder="name@example.com">
+        </div>  
+        <div class="form-group">
+            <label for="Dname">DESCRIPTION </label>
+            <textarea class="form-control" id="Dname" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="Cat">Category type :</label>
+            <select class="form-control" id="Cat">
+              <option>Computer</option>
+              <option>Maths</option>
+              <option>Engineering</option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="type">Course type:</label>
+          <select class="form-control" id="type">
+            <option>Pre Registration</option>
+            <option>On Going</option>
+            <option>Over</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="exampleFormControlFile1">Example file input</label>
+            <input id="file-picker" class="form-control-file" type="file" name="file" accept="image/*">
+              <div id="msg">
+              <br>
+              </div>    
+        </div>
+        <div>
+            <label for="Bdate">Choose a Start date</label>
+            <b-form-datepicker id="Bdate" :state="true" class="mb-2"></b-form-datepicker>
+            <label for="Fdate">Choose a Finish date</label>
+            <b-form-datepicker id="Fdate" :state="true" class="mb-2"></b-form-datepicker>
+            
+        </div>
+        <button type="submit" value="Upload!" id="upload-button" class="btn btn-primary mb-2">Submit</button>
+    </form>
+  
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+</body>
+<script>
+
+  $("#file-picker").change(function () {
+
+    var input = document.getElementById('file-picker');
+
+    for (var i = 0; i < input.files.length; i++) {
+      var ext = input.files[i].name.substring(input.files[i].name.lastIndexOf('.') + 1).toLowerCase()
+
+      if ((ext == 'jpg') || (ext == 'png')) {
+        $("#msg").text("Files are supported")
+      }
+      else {
+        $("#msg").text("Files are NOT supported")
+        document.getElementById("file-picker").value = "";
+      }
+
+    }
+
+
+  });
+
+</script>
+
+</html>
