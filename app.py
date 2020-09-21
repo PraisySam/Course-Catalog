@@ -46,7 +46,7 @@ class Courses(db.Model):
     self.startDate = startDate
     self.endDate = endDate
 
-# Product Schema
+# Course Schema
 class CourseSchema(ma.Schema):
   class Meta:
     fields = ('id', 'title', 'instructor','category','description', 'filename','type','startDate','endDate')
@@ -76,16 +76,24 @@ def index(page):
     return render_template('index.html', courses=courses)
 
 
-# Get All Products
-@app.route('/product', methods=['GET'])
-def get_products():
-  all_products = Courses.query.filter(Courses.category == 'Computer')
-  result = courses_schema.dump(all_products)
+# Get All courses
+@app.route('/all_courses', methods=['GET'])
+def get_courses():
+  all_courses = Courses.query.all()
+  result = courses_schema.dump(all_courses)
+  return jsonify(result)
+
+
+# Get All Categories
+@app.route('/all_categories', methods=['GET'])
+def get_cat():
+  category = Courses.query.all()
+  result = courses_schema.dump(category)
   return jsonify(result)
 
 # Get All Computer courses
 @app.route('/Computer', methods=['GET','POST'], defaults={"page": 1})
-def get_courses(page):
+def get_Comcourses(page):
    page = page
    pages = 5
    courses = Courses.query.order_by(Courses.id.asc()).paginate(page,pages,error_out=False)
