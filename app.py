@@ -6,7 +6,7 @@ from flask import url_for, redirect, render_template, request, send_from_directo
 from flask_wtf import FlaskForm 
 from sqlalchemy import or_
 from wtforms_sqlalchemy.fields import QuerySelectField
-
+from datetime import date
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -74,6 +74,7 @@ def index(page):
        courses = Courses.query.filter(or_(Courses.title.like(search), Courses.instructor.like(search))).paginate(per_page=pages, error_out=True)      
        return render_template('index.html', courses=courses, tag=tag)
     return render_template('index.html', courses=courses)
+
 
 # Get All Products
 @app.route('/product', methods=['GET'])

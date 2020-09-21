@@ -4,8 +4,8 @@
 <section>
   
   {% for course in courses.items %}
-  
   <div class="row">
+    
     <div class="card my-3 mx-3" style="width: 25rem;">
       <div class="card-body">
         <div class="row py-4">
@@ -45,7 +45,10 @@
           </div>
           <div class="col-md-10 container">
             <p> {{course.type}} </p>
-            <p>{{ course.startDate}} to {{ course.endDate}}</p>
+            <p id ="date">{{ course.startDate}} to {{ course.endDate}}</p>
+            
+            <p > 9-10 weeks to complete - (2-3 hours each day) </p>
+            
           </div>
         </div>
 
@@ -97,8 +100,9 @@
   
  }
 
-dt1 = new Date(2014-10-2);
-dt2 = new Date(2014-11-2);
+dt1 = new Date(2014,10,2);
+dt2 = new Date(2014,11,2);
+
 console.log(diff_weeks(dt1, dt2));
 
 </script>
