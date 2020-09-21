@@ -65,39 +65,7 @@
 
             {% endblock %}
 
-            <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                {% if courses.has_prev %}
-                <li class="page-item"> <a class="page-link"
-                    href="{{ url_for('index', page=courses.prev_num) }}">Previous</a></li>
-                {% else %}
-                <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
-                {% endif %}
-
-                {% for page in courses.iter_pages(left_edge=3, right_edge=3) %}
-                {% if page %}
-
-                {% if page==courses.page %}
-                <li class="page-item active"><a class="page-link"
-                    href="{{ url_for('index', page=page) }}">{{ page }}</a></li>
-                {% else %}
-                <li class="page-item"><a class="page-link" href="{{ url_for('index', page=page) }}">{{ page }}</a></li>
-                {% endif %}
-
-                {% else %}
-                <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li>
-                {% endif %}
-                {% endfor %}
-
-                {% if courses.has_next %}
-                <li class="page-item"> <a class="page-link"
-                    href="{{ url_for('index', page=courses.next_num) }}">Next</a></li>
-                {% else %}
-                <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
-                {% endif %}
-
-              </ul>
-            </nav>
+            
           </div>
         </div>
 

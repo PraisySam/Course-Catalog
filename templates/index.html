@@ -2,28 +2,32 @@
 
 {% block content %}
 <section>
+  
   {% for course in courses.items %}
+  
   <div class="row">
     <div class="card my-3 mx-3" style="width: 25rem;">
       <div class="card-body">
         <div class="row py-4">
           <div class="col container">
-              <a href=""><img src="../static/imageuploads/{{course.filename}}" width="50" height="50" alt="..."></a>
+            <a href=""><img src="../static/imageuploads/{{course.filename}}" width="50" height="50" alt="..."></a>
           </div>
           <div class="col-md-10 container" style="margin-right: 0%;margin-top: -15%;">
-            
+
             <h5 class="card-title">{{ course.title}}</h5>
             <h6 class="card-subtitle mb-2 ">Instructor:{{ course.instructor}}<br> Category: {{ course.category}}</h6>
-            
+
           </div>
         </div>
         <div class="row">
           <div class="col container">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
-                <circle cx="8" cy="4.5" r="1"/>
-              </svg>
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+              <path
+                d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" />
+              <circle cx="8" cy="4.5" r="1" />
+            </svg>
           </div>
           <div class="col-md-10 container">
             <p>{{ course.description }}</p>
@@ -31,28 +35,71 @@
         </div>
         <div class="row">
           <div class="col container">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-              </svg>
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar-check" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+              <path fill-rule="evenodd"
+                d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+            </svg>
           </div>
           <div class="col-md-10 container">
-            <p>{{course.type}}</p>
-            <p>Start Date :{{ course.startDate}}</p>
-            <p>Finish Date :{{ course.endDate}}</p>
+            <p> {{course.type}} </p>
+            <p>{{ course.startDate}} to {{ course.endDate}}</p>
           </div>
         </div>
-        
+
       </div>
     </div>
-    
+
   </div>
 
   {% endfor %}
   </div>
-
-
 </section>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if courses.has_prev %}
+    <li class="page-item"> <a class="page-link" href="{{ url_for('index', page=courses.prev_num) }}">Previous</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
+    {% endif %}
 
+    {% for page in courses.iter_pages(left_edge=3, right_edge=3) %}
+    {% if page %}
 
+    {% if page==courses.page %}
+    <li class="page-item active"><a class="page-link" href="{{ url_for('index', page=page) }}">{{ page }}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="{{ url_for('index', page=page) }}">{{ page }}</a></li>
+    {% endif %}
+
+    {% else %}
+    <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li>
+    {% endif %}
+    {% endfor %}
+
+    {% if courses.has_next %}
+    <li class="page-item"> <a class="page-link" href="{{ url_for('index', page=courses.next_num) }}">Next</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+    {% endif %}
+
+  </ul>
+</nav>
+<script>
+  function diff_weeks(dt2, dt1) 
+ {
+
+  var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+  diff /= (60 * 60 * 24 * 7);
+  return Math.abs(Math.round(diff));
+  
+ }
+
+dt1 = new Date(2014-10-2);
+dt2 = new Date(2014-11-2);
+console.log(diff_weeks(dt1, dt2));
+
+</script>
 {% endblock %}
