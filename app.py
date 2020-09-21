@@ -38,9 +38,9 @@ class Courses(db.Model):
 
   def __init__(self, title, instructor, category, description, filename, type, startDate, endDate):
     self.title = title
-    self.description = description
-    self.category = category
     self.instructor = instructor
+    self.category = category
+    self.description = description
     self.filename = filename
     self.type = type
     self.startDate = startDate
@@ -49,7 +49,7 @@ class Courses(db.Model):
 # Product Schema
 class CourseSchema(ma.Schema):
   class Meta:
-    fields = ('id', 'title', 'description', 'instructor','category', 'filename','type','startDate','endDate')
+    fields = ('id', 'title', 'instructor','category','description', 'filename','type','startDate','endDate')
 
 # Init schema
 course_schema = CourseSchema()
@@ -71,25 +71,34 @@ def index(page):
     if request.method == 'POST' and 'tag' in request.form:
        tag = request.form["tag"]
        search = "%{}%".format(tag)
-       courses = Courses.query.filter(or_(Courses.title.like(search), Courses.category.like(search))).paginate(per_page=pages, error_out=True)      
+       courses = Courses.query.filter(or_(Courses.title.like(search), Courses.instructor.like(search))).paginate(per_page=pages, error_out=True)      
        return render_template('index.html', courses=courses, tag=tag)
     return render_template('index.html', courses=courses)
- 
+
+# Get All Products
+@app.route('/product', methods=['GET'])
+def get_products():
+  all_products = Courses.query.filter(Courses.category == 'Computer')
+  result = courses_schema.dump(all_products)
+  return jsonify(result)
+
 # Get All Courses
-@app.route('/Computer', methods=['GET'] , defaults={"page": 1})
+@app.route('/Computer', methods=['GET','POST'], defaults={"page": 1})
 def get_courses(page):
    page = page
    pages = 5
-   courses = Courses.query.order_by(Courses.category == 'Maths').paginate(page,pages,error_out=False)  
+   courses = Courses.query.order_by(Courses.id.asc()).paginate(page,pages,error_out=False)
+   all_products = Courses.query.filter(Courses.category == 'Computer')
+   result = courses_schema.dump(all_products)
    
    if request.method == 'POST' and 'tag' in request.form:
        tag = request.form["tag"]
        search = "%{}%".format(tag)
-       courses = Courses.query.filter(Courses.title.like(search)).paginate(per_page=pages, error_out=True)      
-       return render_template('Category.html', courses=courses, tag=tag)
-   return render_template('Category.html', courses=courses)
+       result = Courses.query.filter(Courses.category == "Computer" , or_(Courses.title.like(search), Courses.instructor.like(search)))     
+       
+       return render_template('Category.html', result=result , tag=tag , courses=courses)
+   return render_template('Category.html', result=result , courses=courses)
    
-
 
 # Get Single Products
 @app.route('/all_courses/<id>', methods=['GET']) 
@@ -132,7 +141,7 @@ def upload():
         print("Save it to:", destination)
         upload.save(destination)
         
-    new_course = Courses(title, description, instructor, category, filename, type, startDate, endDate)
+    new_course = Courses(title, instructor, category, description, filename, type, startDate, endDate)
     db.session.add(new_course)
     db.session.commit()
     
