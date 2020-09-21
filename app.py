@@ -82,7 +82,7 @@ def get_products():
   result = courses_schema.dump(all_products)
   return jsonify(result)
 
-# Get All Courses
+# Get All Computer courses
 @app.route('/Computer', methods=['GET','POST'], defaults={"page": 1})
 def get_courses(page):
    page = page
@@ -90,22 +90,54 @@ def get_courses(page):
    courses = Courses.query.order_by(Courses.id.asc()).paginate(page,pages,error_out=False)
    all_products = Courses.query.filter(Courses.category == 'Computer')
    result = courses_schema.dump(all_products)
-   
+
+   # Search from Computer courses
    if request.method == 'POST' and 'tag' in request.form:
        tag = request.form["tag"]
        search = "%{}%".format(tag)
        result = Courses.query.filter(Courses.category == "Computer" , or_(Courses.title.like(search), Courses.instructor.like(search)))     
        
-       return render_template('Category.html', result=result , tag=tag , courses=courses)
-   return render_template('Category.html', result=result , courses=courses)
+       return render_template('Computer.html', result=result , tag=tag , courses=courses)
+   return render_template('Computer.html', result=result , courses=courses)
    
 
-# Get Single Products
-@app.route('/all_courses/<id>', methods=['GET']) 
-def get_course(id):
-  course = Courses.query.get(id)
-  return render_template('course.html', title="Course(ID)" ,  course = course )
+# Get All Maths courses
+@app.route('/Maths', methods=['GET','POST'], defaults={"page": 1})
+def get_mathscourses(page):
+   page = page
+   pages = 5
+   courses = Courses.query.order_by(Courses.id.asc()).paginate(page,pages,error_out=False)
+   all_products = Courses.query.filter(Courses.category == 'Maths')
+   result = courses_schema.dump(all_products)
 
+   # Search from Maths courses
+   if request.method == 'POST' and 'tag' in request.form:
+       tag = request.form["tag"]
+       search = "%{}%".format(tag)
+       result = Courses.query.filter(Courses.category == "Maths" , or_(Courses.title.like(search), Courses.instructor.like(search)))     
+       
+       return render_template('Maths.html', result=result , tag=tag , courses=courses)
+   return render_template('Maths.html', result=result , courses=courses)
+   
+
+# Get All Maths courses
+@app.route('/engineering', methods=['GET','POST'], defaults={"page": 1})
+def get_engcourses(page):
+   page = page
+   pages = 5
+   courses = Courses.query.order_by(Courses.id.asc()).paginate(page,pages,error_out=False)
+   all_products = Courses.query.filter(Courses.category == 'Engineering')
+   result = courses_schema.dump(all_products)
+
+   # Search from ngineering courses
+   if request.method == 'POST' and 'tag' in request.form:
+       tag = request.form["tag"]
+       search = "%{}%".format(tag)
+       result = Courses.query.filter(Courses.category == "Engineering" , or_(Courses.title.like(search), Courses.instructor.like(search)))     
+       
+       return render_template('eng.html', result=result , tag=tag , courses=courses)
+   return render_template('eng.html', result=result , courses=courses)
+   
 # upload a course
 
 @app.route("/upload", methods=["POST"])

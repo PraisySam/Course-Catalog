@@ -4,20 +4,20 @@
 <section>
    
   {% for d in result %}
-  <div class="row">
-    <div class="card " style="width: 25rem;">
+  <div class="row ">
+    <div class="card my-3 mx-3" style="width: 25rem;">
       <div class="card-body">
-        <div class="row">
-          <div class="col container">
-
-          </div>
-          <div class="col-md-10 container">
-            <p><input type="checkbox" name="">{{ d.id}}</p>
-            <h5 class="card-title">{{ d.title}}</h5>
-            <h6 class="card-subtitle mb-2 ">{{ d.instructor}} </h6>
-            <h6> {{ d.category}}</h6>
-          </div>
-        </div>
+          <div class="row py-4">
+              <div class="col container">
+                  <a href=""><img src="../static/imageuploads/{{d.filename}}" width="50" height="50" alt="..."></a>
+              </div>
+              <div class="col-md-10 container" style="margin-right: 0%;margin-top: -15%;">
+                
+                <h5 class="card-title">{{ d.title}}</h5>
+                <h6 class="card-subtitle mb-2 ">Instructor:{{ d.instructor}}<br> Category: {{ d.category}}</h6>
+                
+              </div>
+            </div>
         <div class="row">
           <div class="col container">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
